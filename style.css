@@ -1,0 +1,157 @@
+body {
+  background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff9966);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  color: #fff;
+}
+.header {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+
+.container {
+  max-width: 400px;
+  margin: auto;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+
+textarea {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.lock {
+  font-size: 12px;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+button {
+  width: 100%;
+  background: black;
+  color: white;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #222;
+}
+
+#confirmation {
+  margin-top: 10px;
+  font-weight: bold;
+  display: none;
+}
+
+#posts {
+  margin-top: 20px;
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.post {
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  padding: 12px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.post:nth-child(even) {
+  margin-left: auto;
+  background: #ffe0e0;
+}
+
+.post:nth-child(odd) {
+  margin-right: auto;
+  background: #e0f7ff;
+}
+footer {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 30px;
+  color: #fff;
+}
+footer a {
+  color: #fff;
+  text-decoration: underline;
+}
+.get-own {
+  text-align: center;
+  margin-top: 25px;
+}
+.get-own p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.get-own button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.get-own button:hover {
+  background: #222;
+}
+.post small {
+  display: block;
+  font-size: 10px;
+  opacity: 0.7;
+  margin-top: 5px;
+}
+.post button {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.post button:hover {
+  background: #0056b3;
+}
+.highlight {
+  border: 2px solid gold;
+  background-color: #fff9c4;
+  transition: background 1s ease;
+}

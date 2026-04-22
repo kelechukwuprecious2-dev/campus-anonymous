@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <h1 class="header">campusAnonymous Q&A</h1>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Profile Section -->
+    <div class="profile">
+  <img src="profile.png" alt="Campus Anonymous" class="avatar">
+  <span>@campusAnonymous</span>
+</div>
+
+
+    <!-- Message Box -->
+    <textarea id="postInput" placeholder="Type your anonymous message..."></textarea>
+    <div class="lock">🔒 Anonymous Q&A</div>
+
+    <!-- Send Button -->
+    <button onclick="submitPost()">Send!</button>
+
+    <!-- Confirmation -->
+    <div id="confirmation">✅ Your message has been sent!</div>
+
+    <!-- Posts Section -->
+    <div id="posts"></div>
+  </div>
+  
+  <div class="get-own">
+  <p>👇 Want your own anonymous Q&A? 👇</p>
+  <button onclick="window.location.href='https://yourlinkhere.com'">Get Your Own Messages!</button>
+</div>
+
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
+<footer>
+  <p>© 2026 Campus Anonymous | <a href="#">Terms</a> | <a href="#">Privacy</a></p>
+</footer>
