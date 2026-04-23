@@ -155,3 +155,7 @@ footer a {
   background-color: #fff9c4;
   transition: background 1s ease;
 }
+.highlight {
+  border: 2px solid gold;
+  background-color: #fff9c4;
+}

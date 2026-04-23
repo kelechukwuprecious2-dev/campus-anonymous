@@ -1,8 +1,10 @@
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } 
+  from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-// Your Firebase configuration
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyD6gvfpUTenLnYFnMeedSBPf9lroZcquUI",
   authDomain: "anonymous-app-978d6.firebaseapp.com",
@@ -14,17 +16,38 @@ const firebaseConfig = {
   measurementId: "G-JW7DDKHTVG"
 };
 
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const postsRef = ref(db, 'posts');
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-// Submit a new post
+// 🔐 Login/Logout
+document.getElementById("loginBtn").addEventListener("click", () => {
+  signInWithPopup(auth, provider)
+    .then(result => {
+      alert("Welcome " + result.user.email);
+    })
+    .catch(error => console.error("Login failed:", error));
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  signOut(auth).then(() => alert("Logged out"));
+});
+
+// ✍️ Submit post (only if logged in, with group)
 window.submitPost = function() {
   const text = document.getElementById('postInput').value;
-  if (text.trim() !== "") {
-    push(postsRef, { content: text, timestamp: Date.now() });
+  const group = document.getElementById('groupSelect').value; // new group selector
+
+  if (text.trim() !== "" && auth.currentUser) {
+    push(postsRef, { 
+      content: text, 
+      timestamp: Date.now(),
+      owner: auth.currentUser.uid,
+      group: group
+    });
     document.getElementById('postInput').value = "";
     const confirmDiv = document.getElementById('confirmation');
     confirmDiv.style.display = "block";
@@ -32,45 +55,61 @@ window.submitPost = function() {
   }
 };
 
-// Listen for posts
-onValue(postsRef, (snapshot) => {
-  const postsDiv = document.getElementById('posts');
-  postsDiv.innerHTML = "";
-  snapshot.forEach((child) => {
-    const post = child.val();
-    const postId = child.key; // unique ID for each post
-    postsDiv.innerHTML += `
-      <div class="post">
-        <p>${post.content}</p>
-        <small>${new Date(post.timestamp).toLocaleString()}</small>
-        <button onclick="copyMessageLink('${postId}')">📋 Copy Link</button>
-      </div>`;
-  });
+// 📥 Listen for posts (filter by owner or group)
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    onValue(postsRef, (snapshot) => {
+      const postsDiv = document.getElementById('posts');
+      postsDiv.innerHTML = "";
+      const selectedGroup = document.getElementById('groupSelect').value;
+
+      snapshot.forEach((child) => {
+        const post = child.val();
+        const postId = child.key; 
+
+        // Show if it's the user's own post OR matches their group
+        if (post.owner === user.uid || post.group === selectedGroup) {
+          postsDiv.innerHTML += `
+            <div class="post" id="${postId}">
+              <p>${post.content}</p>
+              <small>${new Date(post.timestamp).toLocaleString()}</small>
+              <button onclick="copyMessageLink('${postId}')">📋 Copy Link</button>
+              <button onclick="shareOnWhatsApp('${postId}')">💬 Share on WhatsApp</button>
+            </div>`;
+        }
+      });
+    });
+  } else {
+    document.getElementById('posts').innerHTML = "<p>Please log in to see posts.</p>";
+  }
 });
 
-// ✅ Add your copyMessageLink function here
+// 📋 Copy link
 function copyMessageLink(postId) {
-  const baseUrl = window.location.href.split("?")[0]; 
+  const baseUrl = "https://kelechukwuprecious2-dev.github.io/campus-anonymous/";
   const link = `${baseUrl}?post=${postId}`;
-  navigator.clipboard.writeText(link).then(() => {
-    alert("Message link copied!");
-  }).catch(err => {
-    console.error("Failed to copy: ", err);
-    window.addEventListener("load", () => {
+  navigator.clipboard.writeText(link).then(() => alert("Message link copied!"))
+    .catch(err => console.error("Failed to copy: ", err));
+}
+
+// 💬 Share on WhatsApp
+function shareOnWhatsApp(postId) {
+  const baseUrl = "https://kelechukwuprecious2-dev.github.io/campus-anonymous/";
+  const link = `${baseUrl}?post=${postId}`;
+  const message = `Check out this anonymous message: ${link}`;
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, "_blank");
+}
+
+// ✨ Highlight shared post
+window.addEventListener("load", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const postId = urlParams.get("post");
   if (postId) {
-    highlightPost(postId);
+    const postElement = document.getElementById(postId);
+    if (postElement) {
+      postElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      postElement.classList.add("highlight");
+    }
   }
 });
-
-function highlightPost(postId) {
-  const postElement = document.getElementById(postId);
-  if (postElement) {
-    postElement.scrollIntoView({ behavior: "smooth", block: "center" });
-    postElement.classList.add("highlight");
-  }
-}
-
-  });
-}

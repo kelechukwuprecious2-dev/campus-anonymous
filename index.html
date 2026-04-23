@@ -1,17 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <h1 class="header">campusAnonymous Q&A</h1>
+  <meta charset="UTF-8">
+  <title>Campus Anonymous Q&A</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1 class="header">CampusAnonymous Q&A</h1>
+  
+<div id="auth-section">
+  <button id="loginBtn">Login with Google</button>
+  <button id="logoutBtn">Logout</button>
+</div>
+<select id="groupSelect">
+  <option value="students">Students</option>
+  <option value="staff">Staff</option>
+</select>
+
+
   <div class="container">
     <!-- Profile Section -->
     <div class="profile">
-  <img src="profile.png" alt="Campus Anonymous" class="avatar">
-  <span>@campusAnonymous</span>
-</div>
-
+      <img src="profile.png" alt="Campus Anonymous" class="avatar">
+      <span>@campusAnonymous</span>
+    </div>
 
     <!-- Message Box -->
     <textarea id="postInput" placeholder="Type your anonymous message..."></textarea>
@@ -19,23 +31,26 @@
 
     <!-- Send Button -->
     <button onclick="submitPost()">Send!</button>
-
+  
     <!-- Confirmation -->
-    <div id="confirmation">✅ Your message has been sent!</div>
+    <div id="confirmation" style="display:none;">✅ Your message has been sent!</div>
 
     <!-- Posts Section -->
     <div id="posts"></div>
   </div>
   
   <div class="get-own">
-  <p>👇 Want your own anonymous Q&A? 👇</p>
-  <button onclick="window.location.href='https://yourlinkhere.com'">Get Your Own Messages!</button>
-</div>
+    <p>👇 Want your own anonymous Q&A? 👇</p>
+    <button onclick="window.location.href='https://kelechukwuprecious2-dev.github.io/campus-anonymous/'">
+      Get Your Own Messages!
+    </button>
+  </div>
 
-
+  <!-- Load script at the end -->
   <script type="module" src="script.js"></script>
+
+  <footer>
+    <p>© 2026 Campus Anonymous | <a href="#">Terms</a> | <a href="#">Privacy</a></p>
+  </footer>
 </body>
 </html>
-<footer>
-  <p>© 2026 Campus Anonymous | <a href="#">Terms</a> | <a href="#">Privacy</a></p>
-</footer>
