@@ -113,3 +113,26 @@ window.addEventListener("load", () => {
     }
   }
 });
+const admin = require("firebase-admin");
+
+// Initialize with your service account key
+admin.initializeApp({
+  credential: admin.credential.cert(require("./serviceAccountKey.json"))
+});
+
+// Example: assign groups to multiple users
+const users = [
+  { uid: "UID_FOR_STUDENT_1", group: "students" },
+  { uid: "UID_FOR_STUDENT_2", group: "students" },
+  { uid: "UID_FOR_STAFF_1", group: "staff" }
+];
+
+users.forEach(user => {
+  admin.auth().setCustomUserClaims(user.uid, { group: user.group })
+    .then(() => {
+      console.log(`Group '${user.group}' set for user ${user.uid}`);
+    })
+    .catch(error => {
+      console.error("Error setting claim:", error);
+    });
+});
